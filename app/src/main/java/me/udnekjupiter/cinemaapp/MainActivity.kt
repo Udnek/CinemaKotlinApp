@@ -11,7 +11,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.android.volley.toolbox.Volley
 import me.udnekjupiter.cinemaapp.ui.theme.CinemaAppTheme
+import org.example.KinopoiskApi
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,7 +23,7 @@ class MainActivity : ComponentActivity() {
             CinemaAppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Greeting(
-                        name = "Android KED",
+                        name = "Android",
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
