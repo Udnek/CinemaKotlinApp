@@ -1,4 +1,4 @@
-package org.example
+package me.udnekjupiter.cinemaapp.data
 
 
 import com.google.android.gms.common.internal.Preconditions

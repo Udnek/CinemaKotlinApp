@@ -1,15 +1,13 @@
 package me.udnekjupiter.cinemaapp.test
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.SurfaceCoroutineScope
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.ScrollableState
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -32,6 +30,8 @@ import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import me.udnekjupiter.cinemaapp.data.KinopoiskApi
+import me.udnekjupiter.cinemaapp.film.FilmCard
 import me.udnekjupiter.cinemaapp.ui.theme.CinemaAppTheme
 import kotlin.reflect.KSuspendFunction1
 
@@ -41,17 +41,18 @@ class TestActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             CinemaAppTheme {
-                Test()
+                Test(this)
             }
         }
     }
 }
 
 @Composable
-fun Test(modifier: Modifier = Modifier){
+fun Test(context: Context, modifier: Modifier = Modifier){
     val coroutineScope = rememberCoroutineScope()
     val counters = List(25) { remember { mutableStateOf(0) } }
     var counter2 = remember { mutableStateOf(250_000) }
+    val api = KinopoiskApi(context)
 
     Column(modifier
         .fillMaxWidth()
