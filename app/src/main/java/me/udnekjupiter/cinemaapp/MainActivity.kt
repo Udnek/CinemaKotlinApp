@@ -6,7 +6,6 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -23,7 +22,6 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import me.udnekjupiter.cinemaapp.film.FilmCard
-import me.udnekjupiter.cinemaapp.film.FilmListTest
 import me.udnekjupiter.cinemaapp.ui.theme.CinemaAppTheme
 
 class MainActivity : ComponentActivity() {

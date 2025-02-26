@@ -31,9 +31,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import me.udnekjupiter.cinemaapp.data.KinopoiskApi
-import me.udnekjupiter.cinemaapp.film.FilmCard
 import me.udnekjupiter.cinemaapp.ui.theme.CinemaAppTheme
-import java.io.File
 import kotlin.reflect.KSuspendFunction1
 
 class TestActivity : ComponentActivity() {

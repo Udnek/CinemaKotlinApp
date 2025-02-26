@@ -1,6 +1,5 @@
 package me.udnekjupiter.cinemaapp.data
 
-import android.R
 import android.content.Context
 import android.graphics.BitmapFactory
 import android.widget.ImageView
@@ -8,10 +7,8 @@ import androidx.activity.ComponentActivity.MODE_PRIVATE
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.example.Film
 import java.io.File
 import java.net.URL
-
 
 private const val PINNED_FILMS_FILE = "films.txt"
 private const val PINNED_FILM_PREFIX = "film."
@@ -30,18 +27,11 @@ class FileManager(private val context: Context) {
             ArrayList()
         }
     }
-    fun loadImage(file: String): ImageView?{
-        val imageFile = File(file)
-
-        return null
-/*
-        if (imageFile.exists()) {
-            val myBitmap = BitmapFactory.decodeFile(imageFile.absolutePath)
-            val myImage = findViewById(R.id.imageviewTest) as ImageView
-
-            myImage.setImageBitmap(myBitmap)
-        }
-        return null*/
+    fun loadImage(file: String): ImageView{
+        val bitmap = BitmapFactory.decodeFile(file)
+        val imageView = ImageView(context)
+        imageView.setImageBitmap(bitmap)
+        return imageView
     }
 
     fun saveFile(file: String, data: ByteArray){

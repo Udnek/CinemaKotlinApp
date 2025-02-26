@@ -4,7 +4,6 @@ package me.udnekjupiter.cinemaapp.data
 import com.google.android.gms.common.internal.Preconditions
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
-import me.udnekjupiter.cinemaapp.data.KinopoiskApi
 import java.net.URI
 import java.net.URL
 
