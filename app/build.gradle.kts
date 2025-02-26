@@ -73,8 +73,15 @@ dependencies {
 
     implementation(libs.gson)
 
-    implementation("com.google.android.gms:play-services-cronet:18.0.1")
-    implementation("com.android.volley:volley:1.2.1")
+    implementation(libs.play.services.cronet)
+    implementation(libs.volley)
+
+    //AsyncImage
+    implementation(libs.coil.network.okhttp)
+    implementation(libs.coil.compose)
+
+
+
 
 
     implementation(libs.androidx.core.ktx)
@@ -92,8 +99,4 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-
-    //AsyncImage
-    implementation(libs.coil.network.okhttp)
-    implementation(libs.coil.compose)
 }
