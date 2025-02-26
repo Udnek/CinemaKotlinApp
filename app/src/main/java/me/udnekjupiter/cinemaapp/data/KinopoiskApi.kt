@@ -1,15 +1,14 @@
-package org.example
+package me.udnekjupiter.cinemaapp.data
 
 import android.content.Context
 import com.android.volley.Request
 import com.android.volley.Response.ErrorListener
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
-import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
+import org.example.Film
 import org.json.JSONObject
-import java.net.URI
 
 class KinopoiskApi(private val context: Context) {
 
@@ -24,7 +23,7 @@ class KinopoiskApi(private val context: Context) {
             Request.Method.GET,
             url,
             JSONObject(
-                JsonParser.parseString("{\"X-API-KEY\": \"$KEY\", \"Content-Type\", \"application/json\"}")
+                JsonParser.parseString("{'X-API-KEY': '$KEY', 'Content-Type': 'application/json'}")
                     .asJsonObject.also(modifier).toString()
             ),
             {json -> listener(JsonParser.parseString(json.toString()).asJsonObject)},
@@ -48,8 +47,6 @@ class KinopoiskApi(private val context: Context) {
             {json -> listener(json)},
             {listener(null)})
     }
-
-
 }
 
 
