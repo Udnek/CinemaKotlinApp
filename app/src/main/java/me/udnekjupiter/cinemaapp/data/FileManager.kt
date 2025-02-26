@@ -1,8 +1,10 @@
 package me.udnekjupiter.cinemaapp.data
 
 import android.content.Context
+import android.content.Context.MODE_PRIVATE
+import android.graphics.BitmapFactory
 import android.widget.ImageView
-import androidx.activity.ComponentActivity.MODE_PRIVATE
+//import androidx.activity.ComponentActivity.MODE_PRIVATE
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
