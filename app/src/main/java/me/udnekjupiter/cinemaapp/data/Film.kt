@@ -1,6 +1,7 @@
 package me.udnekjupiter.cinemaapp.data
 
 
+import android.util.Log
 import com.google.android.gms.common.internal.Preconditions
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
@@ -9,6 +10,9 @@ import java.net.URL
 
 
 class Film {
+
+    // TODO: Add bool function to get if film is favorited
+    // TODO: Add function to add film to favorites
 
     private val mainData: JsonObject
     private var extraData : JsonObject? = null
