@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -84,22 +85,27 @@ fun FilmCard(film: Film){
                 )
             }
         }
-        Image(
-            bitmap = ImageBitmap.imageResource(R.drawable.hollow_black_star),
-            contentDescription = "Favorite button",
-            modifier = Modifier.zIndex(1f)
-        )
+        FavoriteFilmButton(film)
     }
 }
 
-//@Composable
-//fun FavoriteFilmButton(filmToFavorite: Film){
-//    val imageInt = remember { ImageBitmap.imageResource(R.drawable.hollow_black_star) }
-//
-//    Image(
-//        bitmap = ImageBitmap.imageResource(imageInt)
-//    )
-//}
+@Composable
+fun FavoriteFilmButton(filmToFavorite: Film){
+    val filmFavorited = true
+
+    val imageSource = if (filmFavorited)
+        { R.drawable.black_star }
+        else { R.drawable.hollow_black_star }
+
+    Image(
+        bitmap = ImageBitmap.imageResource(imageSource),
+        contentDescription = "FavIcon",
+        modifier = Modifier
+            .clickable(
+                onClick = { filmFavorited.not() }
+            )
+    )
+}
 
 
 @Composable

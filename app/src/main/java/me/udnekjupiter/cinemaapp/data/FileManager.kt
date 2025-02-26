@@ -1,14 +1,11 @@
 package me.udnekjupiter.cinemaapp.data
 
-import android.R
 import android.content.Context
-import android.graphics.BitmapFactory
 import android.widget.ImageView
 import androidx.activity.ComponentActivity.MODE_PRIVATE
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.example.Film
 import java.io.File
 import java.net.URL
 

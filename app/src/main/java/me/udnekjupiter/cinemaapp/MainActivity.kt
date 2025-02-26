@@ -37,21 +37,19 @@ class MainActivity : ComponentActivity() {
         val films = ArrayList<Film>()
 
         Log.d("123" , "1231")
-
+        enableEdgeToEdge()
         api.getTop100 { apiFilms ->
-            films.plus(apiFilms);
+            films.plus(apiFilms)
             setContent {
                 CinemaAppTheme {
                     Column (modifier = Modifier.padding(top = 18.dp).verticalScroll(rememberScrollState(0))){
-                        for (i in 1..20){
-                            FilmCard(films[0])
-                            Log.d("MEGAKEK", "${films[0]}")
+                        for (i in 0 until films.size){
+                            FilmCard(films[i])
                         }
                     }
                 }
             }
         }
-        enableEdgeToEdge()
     }
 }
 
