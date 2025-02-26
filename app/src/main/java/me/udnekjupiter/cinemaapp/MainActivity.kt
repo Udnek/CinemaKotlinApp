@@ -6,9 +6,13 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.scrollable
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -18,6 +22,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import me.udnekjupiter.cinemaapp.film.FilmCard
 import me.udnekjupiter.cinemaapp.film.FilmListTest
 import me.udnekjupiter.cinemaapp.ui.theme.CinemaAppTheme
 
@@ -27,7 +32,12 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             CinemaAppTheme {
-                FilmListTest(listOf("1", "2", "3"))
+                val imageURL = "https://i.pinimg.com/736x/e4/b8/6d/e4b86d0875995ec448dc7ead95f.jpg"
+                Column (modifier = Modifier.padding(top = 18.dp).verticalScroll(rememberScrollState(0))){
+                    for (i in 1..20){
+                        FilmCard(imageURL)
+                    }
+                }
             }
         }
     }

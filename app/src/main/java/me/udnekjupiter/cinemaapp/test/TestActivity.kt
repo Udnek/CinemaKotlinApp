@@ -1,5 +1,6 @@
 package me.udnekjupiter.cinemaapp.test
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -11,6 +12,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -27,6 +30,8 @@ import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import me.udnekjupiter.cinemaapp.data.KinopoiskApi
+import me.udnekjupiter.cinemaapp.film.FilmCard
 import me.udnekjupiter.cinemaapp.ui.theme.CinemaAppTheme
 import java.io.File
 import kotlin.reflect.KSuspendFunction1
@@ -37,23 +42,27 @@ class TestActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             CinemaAppTheme {
-                Test()
+                Test(this)
             }
         }
     }
 }
 
 @Composable
-fun Test(modifier: Modifier = Modifier){
+fun Test(context: Context, modifier: Modifier = Modifier){
     val coroutineScope = rememberCoroutineScope()
     val counters = List(25) { remember { mutableStateOf(0) } }
     var counter2 = remember { mutableStateOf(250_000) }
+    val api = KinopoiskApi(context)
 
     Column(modifier
         .fillMaxWidth()
         .background(
             shape = RectangleShape,
             color = Color(0xFFB6B6B6)
+        )
+        .verticalScroll(
+            state = rememberScrollState()
         )
     ){
         for (i in 0..24){
