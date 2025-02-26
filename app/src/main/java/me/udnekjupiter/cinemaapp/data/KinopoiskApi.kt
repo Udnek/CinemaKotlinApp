@@ -7,7 +7,6 @@ import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
-import org.example.Film
 import org.json.JSONObject
 
 class KinopoiskApi(private val context: Context) {
