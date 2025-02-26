@@ -1,14 +1,11 @@
 package me.udnekjupiter.cinemaapp.data
 
 import android.content.Context
-import android.content.Context.MODE_PRIVATE
 import android.graphics.BitmapFactory
 import android.widget.ImageView
-//import androidx.activity.ComponentActivity.MODE_PRIVATE
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.io.File
 import java.net.URL
 
 private const val PINNED_FILMS_FILE = "films.txt"
@@ -36,7 +33,7 @@ class FileManager(private val context: Context) {
     }
 
     fun saveFile(file: String, data: ByteArray){
-        context.openFileOutput(file, MODE_PRIVATE).use {
+        context.openFileOutput(file, Context.MODE_PRIVATE).use {
                 fileOutputStream -> fileOutputStream.write(data)
         }
     }
