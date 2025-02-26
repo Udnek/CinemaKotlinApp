@@ -33,10 +33,10 @@ class Film {
     fun getPosterUrl(): URL = URI.create(getData("posterUrl").asString).toURL()
     fun getYear(): Int = getData("year").asInt
     fun getGenres(): List<String> {
-        return getData("genres").asJsonArray.map { element -> element.asString }
+        return getData("genres").asJsonArray.map { element -> element.asJsonObject.get("genre").asString }
     }
     fun getCountries(): List<String> {
-        return getData("countries").asJsonArray.map { element -> element.asString }
+        return getData("countries").asJsonArray.map { element -> element.asJsonObject.get("country").asString }
     }
     fun loadExtraData(api: KinopoiskApi, listener: (Film) -> Unit){
         api.getExtraData(this) {

@@ -37,7 +37,7 @@ class MainActivity : ComponentActivity() {
         Log.d("123" , "1231")
         enableEdgeToEdge()
         api.getTop100 { apiFilms ->
-            films.plus(apiFilms)
+            films.addAll(apiFilms!!)
             setContent {
                 CinemaAppTheme {
                     Column (modifier = Modifier.padding(top = 18.dp).verticalScroll(rememberScrollState(0))){

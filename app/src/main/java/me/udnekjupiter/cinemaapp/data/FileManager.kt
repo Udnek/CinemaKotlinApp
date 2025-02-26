@@ -1,6 +1,7 @@
 package me.udnekjupiter.cinemaapp.data
 
 import android.content.Context
+import android.graphics.BitmapFactory
 import android.widget.ImageView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
