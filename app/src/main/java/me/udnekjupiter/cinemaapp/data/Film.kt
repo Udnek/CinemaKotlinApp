@@ -10,8 +10,11 @@ import java.net.URL
 
 class Film {
 
-    protected val mainData: JsonObject
-    protected var extraData : JsonObject? = null
+    // TODO: Add bool function to get if film is favorited
+    // TODO: Add function to add film to favorites
+
+    private val mainData: JsonObject
+    private var extraData : JsonObject? = null
     var triedLoadingExtraData = false
         protected set
 

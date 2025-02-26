@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,10 +13,13 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,13 +33,16 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import coil3.compose.*
 import me.udnekjupiter.cinemaapp.R
+import me.udnekjupiter.cinemaapp.data.Film
 
 @Composable
-fun FilmCard(posterURL: String, label: String = "Undefined label", genre: String = "Undefined genre", year: String = "XXXX"){
+fun FilmCard(film: Film){
+
     val painter = rememberAsyncImagePainter(
-        model = posterURL,
+        model = film.getPosterUrl(),
         placeholder = BitmapPainter(ImageBitmap.imageResource(R.drawable.image_placeholder))
     )
 
@@ -60,25 +67,46 @@ fun FilmCard(posterURL: String, label: String = "Undefined label", genre: String
             )
             Column (
                 verticalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxHeight()) {
+                modifier = Modifier.fillMaxHeight().border(2.dp, color = Color.Black)) {
                 Text(
-                    text = label,
+                    text = film.getRuName(),
                     modifier = Modifier
-                        .padding(start = 15.dp),
+                        .padding(start = 15.dp)
+                        .size(width = 280.dp, height = 20.dp),
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp,
                     overflow = TextOverflow.Ellipsis
                 )
                 Text(
-                    text = "$genre ($year)",
+                    text = "${film.getGenres()[0]} (${film.getYear()})",
                     modifier = Modifier
                         .padding(start = 15.dp),
                     color = Color.Gray
                 )
             }
         }
+        FavoriteFilmButton(film)
     }
 }
+
+@Composable
+fun FavoriteFilmButton(filmToFavorite: Film){
+    val filmFavorited = true
+
+    val imageSource = if (filmFavorited)
+        { R.drawable.black_star }
+        else { R.drawable.hollow_black_star }
+
+    Image(
+        bitmap = ImageBitmap.imageResource(imageSource),
+        contentDescription = "FavIcon",
+        modifier = Modifier
+            .clickable(
+                onClick = { filmFavorited.not() }
+            )
+    )
+}
+
 
 @Composable
 fun FilmListTest(filmList: List<String>, modifier: Modifier = Modifier){
@@ -143,14 +171,4 @@ fun FilmListTestPreview(){
     )
 
     FilmListTest(testFilms)
-}
-
-@Preview(
-    showBackground = true
-)
-@Composable
-fun FilmCardPreview(){
-    val imageURL = "https://i.pinimg.com/736x/e4/b8/6d/e4b86d0875995ec448dc029be7ead95f.jpg"
-
-    FilmCard(imageURL)
 }
