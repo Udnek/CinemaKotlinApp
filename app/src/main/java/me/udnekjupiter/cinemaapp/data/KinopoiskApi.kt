@@ -23,7 +23,7 @@ class KinopoiskApi(private val context: Context) {
             Request.Method.GET,
             url,
             JSONObject(
-                JsonParser.parseString("{\"X-API-KEY\": \"$KEY\", \"Content-Type\", \"application/json\"}")
+                JsonParser.parseString("{'X-API-KEY': '$KEY', 'Content-Type': 'application/json'}")
                     .asJsonObject.also(modifier).toString()
             ),
             {json -> listener(JsonParser.parseString(json.toString()).asJsonObject)},
@@ -47,8 +47,6 @@ class KinopoiskApi(private val context: Context) {
             {json -> listener(json)},
             {listener(null)})
     }
-
-
 }
 
 

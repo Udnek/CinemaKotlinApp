@@ -1,10 +1,10 @@
 package me.udnekjupiter.cinemaapp.data
 
 
-import android.util.Log
 import com.google.android.gms.common.internal.Preconditions
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
+import me.udnekjupiter.cinemaapp.data.KinopoiskApi
 import java.net.URI
 import java.net.URL
 
@@ -17,7 +17,7 @@ class Film {
     private val mainData: JsonObject
     private var extraData : JsonObject? = null
     var triedLoadingExtraData = false
-        private set
+        protected set
 
     constructor(mainData: JsonObject){
         this.mainData = mainData
