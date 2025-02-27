@@ -1,5 +1,6 @@
 package me.udnekjupiter.cinemaapp.film
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
@@ -28,6 +29,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.imageResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -91,18 +93,21 @@ fun FilmCard(film: Film){
 
 @Composable
 fun FavoriteFilmButton(filmToFavorite: Film){
-    val filmFavorited = true
+    val filmFavorited = remember { mutableStateOf( false ) }
 
-    val imageSource = if (filmFavorited)
-        { R.drawable.black_star }
-        else { R.drawable.hollow_black_star }
+    val imageSource = when (filmFavorited.value) {
+        true -> R.drawable.black_star
+        false -> R.drawable.hollow_black_star }
 
     Image(
-        bitmap = ImageBitmap.imageResource(imageSource),
+        painter = painterResource(id = imageSource),
         contentDescription = "FavIcon",
         modifier = Modifier
             .clickable(
-                onClick = { filmFavorited.not() }
+                onClick = {
+                    filmFavorited.value = filmFavorited.value.not()
+                    Log.d("FavButton", "filmFavorited: ${filmFavorited.value}")
+                }
             )
     )
 }
