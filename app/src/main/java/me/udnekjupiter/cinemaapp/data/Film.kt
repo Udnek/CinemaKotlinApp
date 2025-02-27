@@ -1,6 +1,7 @@
 package me.udnekjupiter.cinemaapp.data
 
 
+import android.util.Log
 import android.widget.ImageView
 import com.google.android.gms.common.internal.Preconditions
 import com.google.gson.JsonElement
@@ -20,7 +21,16 @@ class Film(val mainData: JsonObject) {
         protected set
 
     companion object{
-        fun loadFromPinned(id: Int): Film? = MainActivity.fileManager.loadFilm(id)
+        fun loadAllPinned(): MutableList<Film> {
+            val films: MutableList<Film> = ArrayList()
+            for (id in MainActivity.fileManager.getPinnedFile()) {
+                when (val loadedFilm = MainActivity.fileManager.loadFilm(id)) {
+                    null -> Log.e("Film", "Can not load film with id: $id")
+                    else -> films.add(loadedFilm)
+                }
+            }
+            return films
+        }
     }
 
     private fun getData(name: String, json: JsonObject = mainData): JsonElement {
