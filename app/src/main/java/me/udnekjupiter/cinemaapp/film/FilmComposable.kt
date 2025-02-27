@@ -69,7 +69,9 @@ fun FilmCard(film: Film){
             )
             Column (
                 verticalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxHeight().border(2.dp, color = Color.Black)) {
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .border(2.dp, color = Color.Black)) {
                 Text(
                     text = film.getRuName(),
                     modifier = Modifier
@@ -99,17 +101,21 @@ fun FavoriteFilmButton(filmToFavorite: Film){
         true -> R.drawable.black_star
         false -> R.drawable.hollow_black_star }
 
-    Image(
-        painter = painterResource(id = imageSource),
-        contentDescription = "FavIcon",
-        modifier = Modifier
-            .clickable(
-                onClick = {
-                    filmFavorited.value = filmFavorited.value.not()
-                    Log.d("FavButton", "filmFavorited: ${filmFavorited.value}")
-                }
-            )
-    )
+    Box(
+
+    ){
+        Image(
+            painter = painterResource(id = imageSource),
+            contentDescription = "FavIcon",
+            modifier = Modifier
+                .clickable(
+                    onClick = {
+                        filmFavorited.value = filmFavorited.value.not()
+                        Log.d("FavButton", "filmFavorited: ${filmFavorited.value}")
+                    }
+                )
+        )
+    }
 }
 
 
