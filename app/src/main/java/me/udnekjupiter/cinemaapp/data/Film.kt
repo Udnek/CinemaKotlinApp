@@ -1,31 +1,32 @@
 package me.udnekjupiter.cinemaapp.data
 
 
+import android.widget.ImageView
 import com.google.android.gms.common.internal.Preconditions
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
+import me.udnekjupiter.cinemaapp.MainActivity
 import java.net.URI
 import java.net.URL
 
 
-class Film {
+class Film(val mainData: JsonObject) {
 
     // TODO: Add bool function to get if film is favorited
     // TODO: Add function to add film to favorites
 
-    private val mainData: JsonObject
     private var extraData : JsonObject? = null
     var triedLoadingExtraData = false
         protected set
 
-    constructor(mainData: JsonObject){
-        this.mainData = mainData
+    companion object{
+        fun loadFromPinned(id: Int): Film? = MainActivity.fileManager.loadFilm(id)
     }
 
     private fun getData(name: String, json: JsonObject = mainData): JsonElement {
         val element = json.get(name)
         assert(element != null)
-        return element;
+        return element
     }
 
     fun getId(): Int = getData("filmId").asInt
@@ -38,20 +39,27 @@ class Film {
     fun getCountries(): List<String> {
         return getData("countries").asJsonArray.map { element -> element.asJsonObject.get("country").asString }
     }
-    fun loadExtraData(api: KinopoiskApi, listener: (Film) -> Unit){
-        api.getExtraData(this) {
+    fun loadExtraData(listener: (Film) -> Unit){
+        MainActivity.api.getExtraData(this) {
             json ->
                 extraData = json
                 triedLoadingExtraData = true
                 listener(this)
         }
     }
-
     fun getLoadedDescription(): String? {
         Preconditions.checkArgument(triedLoadingExtraData, "Extra description was not loaded!")
         val data = extraData
         return data?.let {getData("description", data).asString }
     }
+    fun getSavedPoster(): ImageView? {
+        val manager = MainActivity.fileManager
+        return manager.loadImage(manager.getPosterFileName(this))
+    }
+
+    fun pin() = MainActivity.fileManager.pinFilm(this)
+    fun isPinned() = MainActivity.fileManager.getPinnedFile().contains(getId())
+    fun unpin() = MainActivity.fileManager.unpinFilm(this)
 }
 
 
