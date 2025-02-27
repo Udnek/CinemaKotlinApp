@@ -1,43 +1,41 @@
 package me.udnekjupiter.cinemaapp
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import me.udnekjupiter.cinemaapp.data.FileManager
 import me.udnekjupiter.cinemaapp.data.Film
 import me.udnekjupiter.cinemaapp.data.KinopoiskApi
 import me.udnekjupiter.cinemaapp.film.FilmCard
 import me.udnekjupiter.cinemaapp.ui.theme.CinemaAppTheme
 
 class MainActivity : ComponentActivity() {
+
+    companion object {
+        lateinit var instance: MainActivity
+        val fileManager: FileManager
+            get() = FileManager(instance)
+        val api: KinopoiskApi
+            get() = KinopoiskApi(instance)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        instance = this
 
-        val api = KinopoiskApi(this)
         val films = ArrayList<Film>()
 
-        Log.d("123" , "1231")
         enableEdgeToEdge()
         api.getTop100 { apiFilms ->
             films.addAll(apiFilms!!)
+            fileManager.unpinFilm(films[0])
             setContent {
                 CinemaAppTheme {
                     Column (modifier = Modifier.padding(top = 18.dp).verticalScroll(rememberScrollState(0))){
