@@ -39,6 +39,7 @@ class MainActivity : ComponentActivity() {
             setContent {
                 CinemaAppTheme {
                     Column (modifier = Modifier.padding(top = 18.dp).verticalScroll(rememberScrollState(0))){
+                        Log.d("MainActivity" , "Films parsed: ${films.size}")
                         for (i in 0 until films.size){
                             FilmCard(films[i])
                         }
