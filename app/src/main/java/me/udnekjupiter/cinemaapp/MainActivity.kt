@@ -1,6 +1,7 @@
 package me.udnekjupiter.cinemaapp
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import me.udnekjupiter.cinemaapp.data.FileManager
@@ -33,15 +35,14 @@ class MainActivity : ComponentActivity() {
         val films = ArrayList<Film>()
 
         enableEdgeToEdge()
-        api.getTop100 { apiFilms ->
-            films.addAll(apiFilms!!)
-            fileManager.unpinFilm(films[0])
+        api.getTop100 { apiFilms -> films.addAll(apiFilms!!)
+            Log.d("MainActivity" , "Films parsed: ${films.size}")
             setContent {
                 CinemaAppTheme {
                     Column (modifier = Modifier.padding(top = 18.dp).verticalScroll(rememberScrollState(0))){
                         Log.d("MainActivity" , "Films parsed: ${films.size}")
                         for (i in 0 until films.size){
-                            FilmCard(films[i])
+                            FilmCard(films[i], instance)
                         }
                     }
                 }
