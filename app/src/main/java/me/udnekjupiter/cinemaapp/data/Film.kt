@@ -10,7 +10,6 @@ import me.udnekjupiter.cinemaapp.MainActivity
 import java.net.URI
 import java.net.URL
 
-
 class Film {
     val mainData: JsonObject
     var extraData : JsonObject? = null
