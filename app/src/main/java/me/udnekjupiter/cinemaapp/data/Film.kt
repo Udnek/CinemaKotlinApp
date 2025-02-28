@@ -7,6 +7,7 @@ import com.google.android.gms.common.internal.Preconditions
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import me.udnekjupiter.cinemaapp.MainActivity
+import java.io.Serializable
 import java.net.URI
 import java.net.URL
 

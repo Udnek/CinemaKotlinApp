@@ -46,7 +46,7 @@ import me.udnekjupiter.cinemaapp.R
 import me.udnekjupiter.cinemaapp.data.Film
 
 @Composable
-fun FilmCard(film: Film, context: Context){
+fun FilmCard(film: Film, context: Context, modifier: Modifier = Modifier){
     Log.d("FilmCard", "${film.getPosterUrl()}")
     val painter = rememberAsyncImagePainter(
         model = "https://e621.net",
@@ -62,6 +62,7 @@ fun FilmCard(film: Film, context: Context){
                 color = Color(0xFFE8E8E8),
                 shape = RoundedCornerShape(8.dp)
             )
+            .then(modifier)
     ){
         Row {
             AsyncImage(
@@ -83,8 +84,9 @@ fun FilmCard(film: Film, context: Context){
                 Text(
                     text = film.getRuName(),
                     modifier = Modifier
-                        .padding(start = 15.dp)
-                        .size(width = 280.dp, height = 20.dp),
+                        .padding(start = 15.dp, end = 40.dp)
+                        .height(30.dp)
+                        .fillMaxWidth(),
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp,
                     overflow = TextOverflow.Ellipsis
@@ -126,7 +128,7 @@ fun FavoriteFilmButton(filmToPin: Film){
                             false -> filmToPin.pin()
                         }
                         isPinned.value = isPinned.value.not()
-                        Log.d("FavButton", "filmFavorited: ${filmToPin.isPinned()}")
+                        Log.d("PinButton", "Film (${filmToPin.getRuName()}) pinned: ${filmToPin.isPinned()}")
                     }
                 )
                 .padding(5.dp)
