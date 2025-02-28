@@ -35,8 +35,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.zIndex
-import coil3.compose.*
+import coil3.compose.rememberAsyncImagePainter
 import me.udnekjupiter.cinemaapp.R
 import me.udnekjupiter.cinemaapp.data.Film
 

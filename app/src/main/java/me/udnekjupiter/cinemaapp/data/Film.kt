@@ -6,22 +6,33 @@ import android.widget.ImageView
 import com.google.android.gms.common.internal.Preconditions
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
+import com.google.gson.JsonParser
 import me.udnekjupiter.cinemaapp.MainActivity
+import java.io.Serializable
 import java.net.URI
 import java.net.URL
 
 
-class Film(val mainData: JsonObject) {
-
-    // TODO: Add bool function to get if film is favorited
-    // TODO: Add function to add film to favorites
-
-    private var extraData : JsonObject? = null
+class Film : Serializable {
+    val mainData: JsonObject
+    var extraData : JsonObject? = null
+        private set
     var triedLoadingExtraData = false
-        protected set
+        private set
+
+    constructor(mainData: JsonObject) {
+        this.mainData = mainData
+    }
+
+    constructor(serializableFilm: SerializableFilm){
+        mainData = JsonParser.parseString(serializableFilm.mainData).asJsonObject
+        extraData = if (serializableFilm.extraData == null) null
+                    else JsonParser.parseString(serializableFilm.extraData).asJsonObject
+    }
 
     companion object{
         fun loadAllPinned(): MutableList<Film> {
+
             val films: MutableList<Film> = ArrayList()
             for (id in MainActivity.fileManager.getPinnedFile()) {
                 when (val loadedFilm = MainActivity.fileManager.loadFilm(id)) {
@@ -32,6 +43,8 @@ class Film(val mainData: JsonObject) {
             return films
         }
     }
+
+    fun serialize(): SerializableFilm = SerializableFilm(this)
 
     private fun getData(name: String, json: JsonObject = mainData): JsonElement {
         val element = json.get(name)
