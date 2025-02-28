@@ -1,10 +1,13 @@
 package me.udnekjupiter.cinemaapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -12,12 +15,14 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import me.udnekjupiter.cinemaapp.data.FileManager
 import me.udnekjupiter.cinemaapp.data.Film
 import me.udnekjupiter.cinemaapp.data.KinopoiskApi
 import me.udnekjupiter.cinemaapp.film.FilmCard
 import me.udnekjupiter.cinemaapp.ui.theme.CinemaAppTheme
+
 
 class MainActivity : ComponentActivity() {
 
@@ -36,15 +41,27 @@ class MainActivity : ComponentActivity() {
         val films = ArrayList<Film>()
 
         enableEdgeToEdge()
-        api.getTop100 { apiFilms ->
-            films.addAll(apiFilms!!)
-            fileManager.unpinFilm(films[0])
+        api.getTop100 { apiFilms -> films.addAll(apiFilms!!)
+            Log.d("MainActivity" , "Films parsed: ${films.size}")
             setContent {
                 CinemaAppTheme {
-                    Column (modifier = Modifier.padding(top = 18.dp).verticalScroll(rememberScrollState(0))){
+                    Column (modifier = Modifier
+                        .padding(top = 18.dp)
+                        .verticalScroll(rememberScrollState(0))){
                         Log.d("MainActivity" , "Films parsed: ${films.size}")
                         for (i in 0 until films.size){
-                            FilmCard(films[i])
+                            FilmCard(
+                                films[i],
+                                instance,
+                                modifier = Modifier
+                                    .border(5.dp, color = Color.Black)
+                                    .clickable(onClick = {
+//                                        val intent = Intent(instance, FilmActivity::class.java)
+//                                        intent.putExtra(Film::class.java.getSimpleName(), films[i])
+//                                        startActivity(intent)
+                                    }
+                                )
+                            )
                         }
                     }
                 }

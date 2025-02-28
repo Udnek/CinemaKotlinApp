@@ -20,6 +20,10 @@ roomRxjava2 = "2.6.1"
 roomRxjava3 = "2.6.1"
 roomTesting = "2.6.1"
 volley = "1.2.1"
+appcompat = "1.6.1"
+material = "1.10.0"
+activity = "1.10.0"
+constraintlayout = "2.1.4"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -49,6 +53,10 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 play-services-cronet = { module = "com.google.android.gms:play-services-cronet", version.ref = "playServicesCronet" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomCompilerVersion" }
 volley = { module = "com.android.volley:volley", version.ref = "volley" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
+androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

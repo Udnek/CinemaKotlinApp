@@ -1,5 +1,6 @@
 package me.udnekjupiter.cinemaapp.film
 
+import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -28,6 +30,7 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -35,15 +38,18 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil3.compose.rememberAsyncImagePainter
+import androidx.compose.ui.zIndex
+import coil3.compose.*
+import coil3.request.ImageRequest
+import coil3.request.crossfade
 import me.udnekjupiter.cinemaapp.R
 import me.udnekjupiter.cinemaapp.data.Film
 
 @Composable
-fun FilmCard(film: Film){
-
+fun FilmCard(film: Film, context: Context, modifier: Modifier = Modifier){
+    Log.d("FilmCard", "${film.getPosterUrl()}")
     val painter = rememberAsyncImagePainter(
-        model = film.getPosterUrl(),
+        model = "https://e621.net",
         placeholder = BitmapPainter(ImageBitmap.imageResource(R.drawable.image_placeholder))
     )
 
@@ -56,10 +62,14 @@ fun FilmCard(film: Film){
                 color = Color(0xFFE8E8E8),
                 shape = RoundedCornerShape(8.dp)
             )
+            .then(modifier)
     ){
         Row {
-            Image(
-                painter = painter,
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(film.getPosterUrl().toString())
+                    .crossfade(true)
+                    .build(),
                 contentDescription = "Film Poster",
                 contentScale = ContentScale.FillHeight,
                 modifier = Modifier
@@ -70,12 +80,13 @@ fun FilmCard(film: Film){
                 verticalArrangement = Arrangement.Center,
                 modifier = Modifier
                     .fillMaxHeight()
-                    .border(2.dp, color = Color.Black)) {
+            ) {
                 Text(
                     text = film.getRuName(),
                     modifier = Modifier
-                        .padding(start = 15.dp)
-                        .size(width = 280.dp, height = 20.dp),
+                        .padding(start = 15.dp, end = 40.dp)
+                        .height(30.dp)
+                        .fillMaxWidth(),
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp,
                     overflow = TextOverflow.Ellipsis
@@ -93,15 +104,18 @@ fun FilmCard(film: Film){
 }
 
 @Composable
-fun FavoriteFilmButton(filmToFavorite: Film){
-    val filmFavorited = remember { mutableStateOf( false ) }
+fun FavoriteFilmButton(filmToPin: Film){
+    val isPinned = remember { mutableStateOf(filmToPin.isPinned()) }
 
-    val imageSource = when (filmFavorited.value) {
+    val imageSource = when (isPinned.value) {
         true -> R.drawable.black_star
         false -> R.drawable.hollow_black_star }
 
     Box(
-
+        modifier = Modifier
+            .zIndex(1f)
+            .fillMaxSize(),
+        contentAlignment = Alignment.TopEnd
     ){
         Image(
             painter = painterResource(id = imageSource),
@@ -109,10 +123,16 @@ fun FavoriteFilmButton(filmToFavorite: Film){
             modifier = Modifier
                 .clickable(
                     onClick = {
-                        filmFavorited.value = filmFavorited.value.not()
-                        Log.d("FavButton", "filmFavorited: ${filmFavorited.value}")
+                        when (isPinned.value){
+                            true -> filmToPin.unpin()
+                            false -> filmToPin.pin()
+                        }
+                        isPinned.value = isPinned.value.not()
+                        Log.d("PinButton", "Film (${filmToPin.getRuName()}) pinned: ${filmToPin.isPinned()}")
                     }
                 )
+                .padding(5.dp)
+                .size(30.dp, 30.dp)
         )
     }
 }
