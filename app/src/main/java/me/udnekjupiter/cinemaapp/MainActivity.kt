@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import me.udnekjupiter.cinemaapp.data.FileManager
 import me.udnekjupiter.cinemaapp.data.Film
 import me.udnekjupiter.cinemaapp.data.KinopoiskApi
+import me.udnekjupiter.cinemaapp.data.SerializableFilm
 import me.udnekjupiter.cinemaapp.film.FilmCard
 import me.udnekjupiter.cinemaapp.ui.theme.CinemaAppTheme
 
@@ -56,9 +57,9 @@ class MainActivity : ComponentActivity() {
                                 modifier = Modifier
                                     .border(5.dp, color = Color.Black)
                                     .clickable(onClick = {
-//                                        val intent = Intent(instance, FilmActivity::class.java)
-//                                        intent.putExtra(Film::class.java.getSimpleName(), films[i])
-//                                        startActivity(intent)
+                                        val intent = Intent(instance, FilmActivity::class.java)
+                                        intent.putExtra("Film", films[i].serialize())
+                                        startActivity(intent)
                                     }
                                 )
                             )

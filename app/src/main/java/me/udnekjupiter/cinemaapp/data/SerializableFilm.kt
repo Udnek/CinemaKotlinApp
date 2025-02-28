@@ -1,6 +1,8 @@
 package me.udnekjupiter.cinemaapp.data
 
-class SerializableFilm {
+import java.io.Serializable
+
+class SerializableFilm : Serializable{
 
     val mainData: String
     val extraData: String?

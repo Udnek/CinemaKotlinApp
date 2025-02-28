@@ -13,7 +13,7 @@ import java.net.URI
 import java.net.URL
 
 
-class Film : Serializable {
+class Film {
     val mainData: JsonObject
     var extraData : JsonObject? = null
         private set
