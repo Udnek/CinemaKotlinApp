@@ -69,14 +69,59 @@ class MainActivity : ComponentActivity() {
                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
                         Text(
                             text = "Ошибка загрузки",
-                            color = Color.Black,
+                            color = Color.Gray,
                             textAlign = TextAlign.Center,
-                            fontSize = 30.sp,
+                            fontSize = 35.sp,
                             fontWeight = FontWeight(400),
                             modifier = Modifier
+                                .padding(bottom = 100.dp)
                         )
                         Text(
                             text = "Попробовать снова",
+                            color = Color.Black,
+                            fontSize = 15.sp,
+                            modifier = Modifier
+                                .background(color = Color.LightGray, shape = RoundedCornerShape(10.dp))
+                                .clip(shape = RoundedCornerShape(10.dp))
+                                .clickable(
+                                    onClick = {
+                                        instance.recreate()
+                                    }
+                                )
+                                .padding(horizontal = 40.dp, vertical = 7.dp)
+                        )
+                    }
+                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        Text(
+                            text = "Закладки",
+                            color = Color.Black,
+                            fontSize = 15.sp,
+                            modifier = Modifier
+                                .background(color = Color.LightGray, shape = RoundedCornerShape(10.dp))
+                                .clip(shape = RoundedCornerShape(10.dp))
+                                .clickable(
+                                    onClick = {
+                                        val intent = Intent(instance, PinnedActivity::class.java)
+                                        startActivity(intent)
+                                    }
+                                )
+                                .padding(horizontal = 40.dp, vertical = 7.dp)
+                        )
+                        Text(
+                            text = "Закладки",
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight(500),
+                            modifier = Modifier
+                                .padding(bottom = 17.dp)
+                                .clip(shape = RoundedCornerShape(25.dp))
+                                .clickable(
+                                    onClick = {
+                                        val intent = Intent(instance, PinnedActivity::class.java)
+                                        startActivity(intent)
+                                    }
+                                )
+                                .background(color = Color.Gray, shape = RoundedCornerShape(25.dp))
+                                .padding(horizontal = 40.dp, vertical = 7.dp)
                         )
                     }
                 }
