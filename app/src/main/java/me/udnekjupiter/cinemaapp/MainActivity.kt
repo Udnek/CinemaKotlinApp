@@ -6,15 +6,27 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Text
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.delay
 import me.udnekjupiter.cinemaapp.data.FileManager
 import me.udnekjupiter.cinemaapp.data.Film
 import me.udnekjupiter.cinemaapp.data.KinopoiskApi
@@ -39,25 +51,77 @@ class MainActivity : ComponentActivity() {
         val films = ArrayList<Film>()
 
         enableEdgeToEdge()
-        api.getTop100 { apiFilms -> films.addAll(apiFilms!!)
-            Log.d("MainActivity" , "Films parsed: ${films.size}")
-            setContent {
-                CinemaAppTheme {
-                    Column (modifier = Modifier
-                        .padding(top = 24.dp)
-                        .verticalScroll(rememberScrollState(0))){
-                        Log.d("MainActivity" , "Films parsed: ${films.size}")
-                        for (i in 0 until films.size){
-                            FilmCard(
-                                films[i],
-                                instance,
-                                modifier = Modifier
-                                    .clickable(onClick = {
-                                        val intent = Intent(instance, FilmActivity::class.java)
-                                        intent.putExtra("film", films[i].serialize())
-                                        startActivity(intent)
-                                    }
+        setContent {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
+                Text(
+                    text = "Загрузка данных...",
+                    color = Color.Gray,
+                    textAlign = TextAlign.Center,
+                    fontSize = 30.sp,
+                    fontWeight = FontWeight(400),
+                    modifier = Modifier
+                )
+            }
+        }
+        api.getTop100 { apiFilms ->
+            if (apiFilms == null){
+                setContent{
+                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
+                        Text(
+                            text = "Ошибка загрузки",
+                            color = Color.Gray,
+                            textAlign = TextAlign.Center,
+                            fontSize = 30.sp,
+                            fontWeight = FontWeight(400),
+                            modifier = Modifier
+                        )
+                        Text(
+                            text = "Попробовать снова"
+                        )
+                    }
+                }
+            } else {
+                films.addAll(apiFilms)
+                Log.d("MainActivity", "Films parsed: ${films.size}")
+                setContent {
+                    CinemaAppTheme {
+                        Column(
+                            modifier = Modifier
+                                .padding(top = 24.dp)
+                                .verticalScroll(rememberScrollState(0))
+                                .padding(bottom = 60.dp)
+                        ) {
+                            Log.d("MainActivity", "Films parsed: ${films.size}")
+                            for (i in 0 until films.size) {
+                                FilmCard(
+                                    films[i],
+                                    instance,
+                                    modifier = Modifier
+                                        .clickable(onClick = {
+                                            val intent = Intent(instance, FilmActivity::class.java)
+                                            intent.putExtra("film", films[i].serialize())
+                                            startActivity(intent)
+                                        }
+                                        )
                                 )
+                            }
+                        }
+                        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
+                            Text(
+                                text = "Закладки",
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight(500),
+                                modifier = Modifier
+                                    .padding(bottom = 17.dp)
+                                    .clip(shape = RoundedCornerShape(25.dp))
+                                    .clickable(
+                                        onClick = {
+                                            val intent = Intent(instance, PinnedActivity::class.java)
+                                            startActivity(intent)
+                                        }
+                                    )
+                                    .background(color = Color.Gray, shape = RoundedCornerShape(25.dp))
+                                    .padding(horizontal = 40.dp, vertical = 7.dp)
                             )
                         }
                     }
