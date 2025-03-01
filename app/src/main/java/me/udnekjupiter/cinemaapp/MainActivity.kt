@@ -69,14 +69,14 @@ class MainActivity : ComponentActivity() {
                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
                         Text(
                             text = "Ошибка загрузки",
-                            color = Color.Gray,
+                            color = Color.Black,
                             textAlign = TextAlign.Center,
                             fontSize = 30.sp,
                             fontWeight = FontWeight(400),
                             modifier = Modifier
                         )
                         Text(
-                            text = "Попробовать снова"
+                            text = "Попробовать снова",
                         )
                     }
                 }
