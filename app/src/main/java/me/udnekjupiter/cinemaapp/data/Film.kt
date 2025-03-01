@@ -23,10 +23,10 @@ class Film {
         this.mainData = mainData
     }
 
-    constructor(serializableFilm: SerializableFilm){
-        mainData = JsonParser.parseString(serializableFilm.mainData).asJsonObject
-        extraData = if (serializableFilm.extraData == null) null
-                    else JsonParser.parseString(serializableFilm.extraData).asJsonObject
+    constructor(serializedFilm: SerializedFilm){
+        mainData = JsonParser.parseString(serializedFilm.mainData).asJsonObject
+        extraData = if (serializedFilm.extraData == null) null
+                    else JsonParser.parseString(serializedFilm.extraData).asJsonObject
     }
 
     companion object{
@@ -42,7 +42,7 @@ class Film {
         }
     }
 
-    fun serialize(): SerializableFilm = SerializableFilm(this)
+    fun serialize(): SerializedFilm = SerializedFilm(this)
 
     private fun getData(name: String, nullJsonCase: JsonElement? = null, json: JsonObject = mainData): JsonElement {
         val element = json.get(name)

@@ -34,11 +34,10 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        instance = this
 
+        instance = this
         val films = ArrayList<Film>()
 
-        enableEdgeToEdge()
         api.getTop100 { apiFilms -> films.addAll(apiFilms!!)
             Log.d("MainActivity" , "Films parsed: ${films.size}")
             setContent {
@@ -46,7 +45,7 @@ class MainActivity : ComponentActivity() {
                     Column (modifier = Modifier
                         .padding(top = 24.dp)
                         .verticalScroll(rememberScrollState(0))){
-                        Log.d("MainActivity" , "Films parsed: ${films.size}")
+                        Log.d("MainActivity" , "Films loaded: ${films.size}")
                         for (i in 0 until films.size){
                             FilmCard(
                                 films[i],
