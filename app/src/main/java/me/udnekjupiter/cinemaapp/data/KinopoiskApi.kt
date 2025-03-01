@@ -1,6 +1,7 @@
 package me.udnekjupiter.cinemaapp.data
 
 import android.content.Context
+import android.util.Log
 import com.android.volley.AuthFailureError
 import com.android.volley.Response.ErrorListener
 import com.android.volley.toolbox.JsonObjectRequest
@@ -15,7 +16,7 @@ class KinopoiskApi(private val context: Context) {
         private const val KEY = "e30ffed0-76ab-4dd6-b41f-4c9da2b2735b"
     }
 
-    fun get(url: String, modifier: (MutableMap<String, String>) -> Unit = {}, listener: (JsonObject) -> Unit, errorListener: ErrorListener? = null) {
+    fun get(url: String, headerModifier: (MutableMap<String, String>) -> Unit = {}, listener: (JsonObject) -> Unit, errorListener: ErrorListener? = null) {
         val queue = Volley.newRequestQueue(context)
         val request = object : JsonObjectRequest(
             Method.GET,
@@ -29,7 +30,7 @@ class KinopoiskApi(private val context: Context) {
                 val map = HashMap<String, String>()
                 map["X-API-KEY"] = KEY
                 map["Content-Type"] = "application/json"
-                modifier(map)
+                headerModifier(map)
                 return map
             }
         }
@@ -37,12 +38,12 @@ class KinopoiskApi(private val context: Context) {
     }
 
 
-    fun getTop100(listener: (List<Film>?) -> Unit){
+    fun getTop100(page: Int = 1, listener: (List<Film>?) -> Unit){
+        val type: String = "ZOMBIE_THEME"
         get(
-            "$BASE_URL/api/v2.2/films/top",
-            {header -> header["type"] = "TOP_100_POPULAR_FILMS" },
-            {json -> listener(json.get("films").asJsonArray.map { element -> Film(element.asJsonObject) })},
-            {listener(null)}
+            "$BASE_URL/api/v2.2/films/collections?type=$type&page=$page",
+            listener = {json -> listener(json.get("items").asJsonArray.map { element -> Film(element.asJsonObject) })},
+            errorListener =  {listener(null)}
         )
     }
 
