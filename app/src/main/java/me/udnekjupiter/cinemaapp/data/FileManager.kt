@@ -3,6 +3,7 @@ package me.udnekjupiter.cinemaapp.data
 import android.content.Context
 import android.graphics.BitmapFactory
 import android.widget.ImageView
+import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -12,9 +13,6 @@ import java.net.URL
 
 
 private const val PINNED_FILMS_FILE = "films.txt"
-private const val PINNED_FILM_PREFIX = "film."
-private const val POSTER_PREFIX = "poster."
-private const val DATA_PREFIX = "data."
 
 class FileManager(private val context: Context) {
 
@@ -22,6 +20,8 @@ class FileManager(private val context: Context) {
     fun getPosterFileName(film: Film): String = "poster_${film.getId()}.jpg"
     fun getDataFileName(film: Film): String = getDataFileName(film.getId())
     fun getDataFileName(filmId: Int): String = "data_$filmId.txt"
+    fun getExtraDataFileName(film: Film): String = getExtraDataFileName(film.getId())
+    fun getExtraDataFileName(filmId: Int): String = "extra_data_$filmId.txt"
 
     // DELETING
     fun deleteFile(file: String){
@@ -77,16 +77,22 @@ class FileManager(private val context: Context) {
         editPinnedFile { ids -> ids.add(film.getId()) }
         saveFile(getDataFileName(film), listOf(film.mainData.toString()))
         saveImage(getPosterFileName(film), film.getPosterUrl())
+        film.loadExtraData { _ -> saveFile(getExtraDataFileName(film), film.extraData.toString().toByteArray()) }
     }
     fun unpinFilm(film: Film){
         editPinnedFile { ids -> ids.remove(film.getId()) }
         deleteFile(getDataFileName(film))
         deleteFile(getPosterFileName(film))
+        deleteFile(getExtraDataFileName(film))
     }
     fun loadFilm(id: Int): Film?{
-        val file: List<String> = loadFile(getDataFileName(id))
-        if (file.isEmpty()) return null
-        return Film(JsonParser.parseString(file[0]).asJsonObject)
+        val data: List<String> = loadFile(getDataFileName(id))
+        if (data.isEmpty()) return null
+        val rawExtraData: List<String> = loadFile(getExtraDataFileName(id))
+        val extraData: JsonObject? =
+            if (rawExtraData.isEmpty()) null
+            else JsonParser.parseString(rawExtraData[0]).asJsonObject
+        return Film(JsonParser.parseString(data[0]).asJsonObject, extraData)
     }
 
 }
