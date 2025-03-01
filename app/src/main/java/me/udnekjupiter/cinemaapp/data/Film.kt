@@ -53,6 +53,11 @@ class Film {
         }
         return element
     }
+    private fun getExtraData(name: String, nullJsonCase: JsonElement? = null): JsonElement? {
+        Preconditions.checkArgument(triedLoadingExtraData, "Extra data was not queried!")
+        val eData = extraData ?: return nullJsonCase
+        return getData(name, nullJsonCase, eData)
+    }
 
     fun getId(): Int = getData("kinopoiskId").asInt
     fun getRuName(): String = getData("nameRu", JsonPrimitive("No ru name(((")).asString
@@ -72,11 +77,9 @@ class Film {
             listener(this)
         }
     }
-    fun getLoadedDescription(): String? {
-        Preconditions.checkArgument(triedLoadingExtraData, "Extra description was not loaded!")
-        val data = extraData
-        return data?.let {getData("description", data).asString }
-    }
+    fun getLoadedDescription(): String = getExtraData("description", JsonPrimitive(":((( null(("))!!.asString
+    fun getLoadedWebUrl(): URL = URI.create(getExtraData("webUrl", JsonPrimitive(";("))!!.asString).toURL()
+
     fun getSavedPoster(): ImageView? {
         val manager = MainActivity.fileManager
         return manager.loadImage(manager.getPosterFileName(this))

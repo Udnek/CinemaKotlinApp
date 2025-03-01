@@ -39,7 +39,7 @@ class KinopoiskApi(private val context: Context) {
 
 
     fun getTop100(page: Int = 1, listener: (List<Film>?) -> Unit){
-        val type: String = "TOP_250_MOVIES"
+        val type = "TOP_250_MOVIES"
         get(
             "$BASE_URL/api/v2.2/films/collections?type=$type&page=$page",
             listener = {json -> listener(json.get("items").asJsonArray.map { element -> Film(element.asJsonObject) })},
