@@ -49,10 +49,6 @@ import me.udnekjupiter.cinemaapp.data.Film
 @Composable
 fun FilmCard(film: Film, context: Context, modifier: Modifier = Modifier){
     Log.d("FilmCard", "${film.getPosterUrl()}")
-    val painter = rememberAsyncImagePainter(
-        model = "https://e621.net",
-        placeholder = BitmapPainter(ImageBitmap.imageResource(R.drawable.image_placeholder))
-    )
 
     Box(
         modifier = Modifier
@@ -66,16 +62,12 @@ fun FilmCard(film: Film, context: Context, modifier: Modifier = Modifier){
             .then(modifier)
     ){
         Row {
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(film.getPosterUrl().toString())
-                    .crossfade(true)
-                    .build(),
-                contentDescription = "Film Poster",
-                contentScale = ContentScale.FillHeight,
+            FilmPoster(
+                film.getPosterUrl().toString(),
                 modifier = Modifier
                     .padding(10.dp)
-                    .fillMaxHeight()
+                    .fillMaxHeight(),
+                contentScale = ContentScale.FillHeight
             )
             Column (
                 verticalArrangement = Arrangement.Center,
@@ -138,68 +130,16 @@ fun FavoriteFilmButton(filmToPin: Film){
     }
 }
 
-
 @Composable
-fun FilmListTest(filmList: List<String>, modifier: Modifier = Modifier){
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
+fun FilmPoster(posterURL: String, modifier: Modifier = Modifier, contentScale: ContentScale = ContentScale.FillWidth){
+    AsyncImage(
+        model = ImageRequest.Builder(LocalContext.current)
+            .data(posterURL)
+            .crossfade(true)
+            .build(),
+        contentDescription = "Film Poster",
+        contentScale = contentScale,
         modifier = modifier
-            .verticalScroll(
-                state = ScrollState(0)
-            )
-            .fillMaxWidth()
-    ){
-        for (film in filmList) {
-            Box(
-                modifier = modifier
-                    .padding(2.dp)
-                    .background(
-                        shape = RectangleShape,
-                        color = Color(0xffe8e8e8)
-                    )
-                    .fillMaxWidth()
-                    .border(
-                        width = 2.dp,
-                        shape = RectangleShape,
-                        color = Color.Black
-                    ),
-                contentAlignment = Alignment.Center
-            ){
-                Text(
-                    text = film,
-                    modifier = modifier
-                        .padding(6.dp),
-                    fontSize = 20.sp
-                )
-            }
-        }
-    }
-}
 
-@Preview(
-    showBackground = true,
-    showSystemUi = true
-)
-@Composable
-fun FilmListTestPreview(){
-    val testFilms = listOf(
-        "MegaSigma",
-        "Flying Fly",
-        "Crazy Raccoon",
-        "My name is John Daker",
-        "Uranium Shoes",
-        "Bnuuy",
-        "Серебряный слон",
-        "Ожидайте неожиданностей",
-        "Top 15 Churchill quotes",
-        "What have you done?",
-        "What have you done?",
-        "What have you done?",
-        "What have you done?",
-        "What have you done?",
-        "What have you done?",
-        "What have you done?"
     )
-
-    FilmListTest(testFilms)
 }

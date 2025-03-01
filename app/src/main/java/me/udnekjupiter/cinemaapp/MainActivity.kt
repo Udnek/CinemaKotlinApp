@@ -44,7 +44,7 @@ class MainActivity : ComponentActivity() {
             setContent {
                 CinemaAppTheme {
                     Column (modifier = Modifier
-                        .padding(top = 18.dp)
+                        .padding(top = 24.dp)
                         .verticalScroll(rememberScrollState(0))){
                         Log.d("MainActivity" , "Films parsed: ${films.size}")
                         for (i in 0 until films.size){
@@ -52,7 +52,6 @@ class MainActivity : ComponentActivity() {
                                 films[i],
                                 instance,
                                 modifier = Modifier
-                                    .border(5.dp, color = Color.Black)
                                     .clickable(onClick = {
                                         val intent = Intent(instance, FilmActivity::class.java)
                                         intent.putExtra("film", films[i].serialize())
