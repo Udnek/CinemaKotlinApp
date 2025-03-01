@@ -67,9 +67,9 @@ class Film {
     fun loadExtraData(listener: (Film) -> Unit){
         MainActivity.api.getExtraData(this) {
             json ->
-                extraData = json
-                triedLoadingExtraData = true
-                listener(this)
+            if (json != null) extraData = json
+            triedLoadingExtraData = true
+            listener(this)
         }
     }
     fun getLoadedDescription(): String? {
