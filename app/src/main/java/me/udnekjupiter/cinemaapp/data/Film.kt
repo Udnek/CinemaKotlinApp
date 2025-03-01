@@ -14,20 +14,21 @@ import java.net.URL
 
 class Film {
     val mainData: JsonObject
-    var extraData : JsonObject? = null
+    var extraData : JsonObject?
         private set
-    var triedLoadingExtraData = false
+    var triedLoadingExtraData: Boolean
         private set
 
-    constructor(mainData: JsonObject) {
+    constructor(mainData: JsonObject, extraData: JsonObject? = null) {
         this.mainData = mainData
+        this.extraData = extraData
+        triedLoadingExtraData = extraData != null
     }
 
-    constructor(serializedFilm: SerializedFilm){
-        mainData = JsonParser.parseString(serializedFilm.mainData).asJsonObject
-        extraData = if (serializedFilm.extraData == null) null
-                    else JsonParser.parseString(serializedFilm.extraData).asJsonObject
-    }
+    constructor(serializedFilm: SerializedFilm) : this (
+        JsonParser.parseString(serializedFilm.mainData).asJsonObject,
+        serializedFilm.extraData?.let{ data -> JsonParser.parseString(data).asJsonObject }
+    )
 
     companion object{
         fun loadAllPinned(): MutableList<Film> {
