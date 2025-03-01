@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -80,6 +81,7 @@ class MainActivity : ComponentActivity() {
                             text = "Попробовать снова",
                             color = Color.Black,
                             fontSize = 15.sp,
+                            textAlign = TextAlign.Center,
                             modifier = Modifier
                                 .background(color = Color.LightGray, shape = RoundedCornerShape(10.dp))
                                 .clip(shape = RoundedCornerShape(10.dp))
@@ -88,15 +90,16 @@ class MainActivity : ComponentActivity() {
                                         instance.recreate()
                                     }
                                 )
-                                .padding(horizontal = 40.dp, vertical = 7.dp)
+                                .width(300.dp)
+                                .padding(vertical = 7.dp)
                         )
-                    }
-                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                         Text(
                             text = "Закладки",
                             color = Color.Black,
                             fontSize = 15.sp,
+                            textAlign = TextAlign.Center,
                             modifier = Modifier
+                                .padding(top = 75.dp)
                                 .background(color = Color.LightGray, shape = RoundedCornerShape(10.dp))
                                 .clip(shape = RoundedCornerShape(10.dp))
                                 .clickable(
@@ -105,23 +108,8 @@ class MainActivity : ComponentActivity() {
                                         startActivity(intent)
                                     }
                                 )
-                                .padding(horizontal = 40.dp, vertical = 7.dp)
-                        )
-                        Text(
-                            text = "Закладки",
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight(500),
-                            modifier = Modifier
-                                .padding(bottom = 17.dp)
-                                .clip(shape = RoundedCornerShape(25.dp))
-                                .clickable(
-                                    onClick = {
-                                        val intent = Intent(instance, PinnedActivity::class.java)
-                                        startActivity(intent)
-                                    }
-                                )
-                                .background(color = Color.Gray, shape = RoundedCornerShape(25.dp))
-                                .padding(horizontal = 40.dp, vertical = 7.dp)
+                                .width(300.dp)
+                                .padding(vertical = 7.dp)
                         )
                     }
                 }
@@ -134,7 +122,7 @@ class MainActivity : ComponentActivity() {
                             modifier = Modifier
                                 .padding(top = 24.dp)
                                 .verticalScroll(rememberScrollState(0))
-                                .padding(bottom = 60.dp)
+                                .padding(bottom = 68.dp)
                         ) {
                             Log.d("MainActivity", "Films parsed: ${films.size}")
                             for (i in 0 until films.size) {
@@ -151,22 +139,24 @@ class MainActivity : ComponentActivity() {
                                 )
                             }
                         }
-                        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
+                        Box(modifier = Modifier.fillMaxSize().padding(bottom = 25.dp), contentAlignment = Alignment.BottomCenter) {
                             Text(
                                 text = "Закладки",
-                                fontSize = 20.sp,
-                                fontWeight = FontWeight(500),
+                                color = Color.Black,
+                                fontSize = 25.sp,
+                                textAlign = TextAlign.Center,
                                 modifier = Modifier
-                                    .padding(bottom = 17.dp)
-                                    .clip(shape = RoundedCornerShape(25.dp))
+                                    .padding(top = 75.dp)
+                                    .background(color = Color.LightGray, shape = RoundedCornerShape(10.dp))
+                                    .clip(shape = RoundedCornerShape(10.dp))
                                     .clickable(
                                         onClick = {
                                             val intent = Intent(instance, PinnedActivity::class.java)
                                             startActivity(intent)
                                         }
                                     )
-                                    .background(color = Color.Gray, shape = RoundedCornerShape(25.dp))
-                                    .padding(horizontal = 40.dp, vertical = 7.dp)
+                                    .width(300.dp)
+                                    .padding(vertical = 7.dp)
                             )
                         }
                     }
