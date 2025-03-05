@@ -46,12 +46,14 @@ class FilmActivity : ComponentActivity() {
             CinemaAppTheme {
                 val coroutineScope = rememberCoroutineScope()
                 val filmDescription = remember { mutableStateOf("") }
+                val filmLink = remember { mutableStateOf("") }
 
                 LaunchedEffect(key1 = Unit) {
                     coroutineScope.launch {
                         film.loadExtraData {
                             film ->
-                            filmDescription.value = film.getLoadedDescription().toString()
+                            filmDescription.value = film.getLoadedDescription()
+                            filmLink.value = film.getLoadedWebUrl().toString()
                         }
                     }
                 }
@@ -107,7 +109,7 @@ class FilmActivity : ComponentActivity() {
                                 .clip(shape = RoundedCornerShape(10.dp))
                                 .clickable(
                                     onClick = {
-                                        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://google.com"))
+                                        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(filmLink.value))
                                         startActivity(browserIntent)
                                     }
                                 )

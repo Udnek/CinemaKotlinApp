@@ -139,7 +139,7 @@ class MainActivity : ComponentActivity() {
                                 )
                             }
                         }
-                        Box(modifier = Modifier.fillMaxSize().padding(bottom = 25.dp), contentAlignment = Alignment.BottomCenter) {
+                        Box(modifier = Modifier.fillMaxSize().padding(bottom = 15.dp), contentAlignment = Alignment.BottomCenter) {
                             Text(
                                 text = "Закладки",
                                 color = Color.Black,
